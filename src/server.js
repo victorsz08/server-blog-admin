@@ -9,13 +9,23 @@ import './database/index.js'
 import userResource from './resources/userResource.js';
 import postResource from './resources/postResource.js';
 
-
+const DEFAULT_ADMIN = {
+    email: 'admin@example.com',
+    password: 'password',
+  }
 
 
 AdminJS.registerAdapter({
     Resource: AdminJSSequelize.Resource,
     Database: AdminJSSequelize.Database
 });
+
+const authenticate = async (email, password) => {
+    if (email === DEFAULT_ADMIN.email && password === DEFAULT_ADMIN.password) {
+      return Promise.resolve(DEFAULT_ADMIN)
+    }
+    return null
+  }
 
 const adminJs = new AdminJS({
     databases: [],
@@ -35,7 +45,13 @@ const adminJs = new AdminJS({
     }
 });
 
-const router = AdminJSExpress.buildRouter(adminJs);
+const router = AdminJSExpress.buildAuthenticatedRouter(adminJs,
+    {
+        authenticate,
+        cookieName: 'adminjs',
+        cookiePassword: 'sessionsecret',
+      }
+    );
 
 const app = express();
 
