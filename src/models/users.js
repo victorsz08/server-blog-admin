@@ -17,6 +17,7 @@ export class Users extends Model {
 
   static associate(models) {
     this.hasMany(models.Posts, {
+      as: 'user_post',
       foreignKey: "author"
     })
   }

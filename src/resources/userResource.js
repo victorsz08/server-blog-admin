@@ -1,5 +1,8 @@
 import { Users } from "../models/users.js";
 import AdminJS from "adminjs";
+import bcryptjs from "bcryptjs";
+
+
 
 
 export default {
@@ -8,15 +11,79 @@ export default {
         parent:{
             icon: 'User'
         },
+        
     actions:{
         resetPassword: {
             actionType: 'record',
             icon: "password",
+            isAccessible: ({currentAdmin}) => currentAdmin.role === "admin",
             handler: async (request, response, context) => {
                 return {
                     record: context.record.toJSON(),
                 }
             }
+        },
+        delete: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        edit: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        show: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        filter: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        list: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        new: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin',
+            handler: async (request, response, context) => {
+                const { name, email, role, password_hash } = request.payload;
+                
+                try {
+
+                const passHash = await bcryptjs.hash(password_hash, 10)
+
+                const user = await Users.create({
+                    name,
+                    email,
+                    role,
+                    password_hash: passHash
+                })
+
+                return {
+                    record: user,
+                    redirectUrl: "/admin/resources/users",
+                    notice: {
+                        message: "Usuário criado com sucesso",
+                        type: "success"
+                    }
+                }
+                } catch (err) {
+                    console.log(err)
+                    if(err.message === "Validation error"){
+                        return {
+                            record: err,
+                            notice: {
+                                message: "Este email já está em uso",
+                                type: "error"
+                            }
+                        }
+                    } 
+
+                    return {
+                        record: err,
+                        message: "Erro interno do servidor",
+                        type: "error"
+                    }
+                }
+                    
+                
+            }
+            
         }
     },
     properties: {
@@ -29,7 +96,7 @@ export default {
         },
         email: {
             position: 3,
-            isRequire: true
+            isRequire: true,
         },
         role: {
             position: 4,
@@ -61,7 +128,14 @@ export default {
             isVisible: false
         },
         password_hash: {
-            isVisible: false
+            position: 9,
+            isVisible: false,
+            isRequire: true,
+            isVisible: {
+                list: false, filter: false, show: false, edit: true
+            },
+
+            
         }
     },
 }
