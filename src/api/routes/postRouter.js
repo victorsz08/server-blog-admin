@@ -5,5 +5,6 @@ const router = Router()
 
 router
     .get('/posts', PostController.getPosts)
+    .get('/posts/:id', PostController.getUserById)
 
 export default router;

@@ -15,7 +15,12 @@ class PostService {
             order: [],
             where: {},
             limit: perPageOption,
-            offset: (pageOption - 1) * perPageOption
+            offset: (pageOption - 1) * perPageOption,
+            include: {
+                model: Users,
+                as: 'user_post',
+                attributes: ['id','name','role']
+            }
         }
 
         if (sort && field && order) {
@@ -36,12 +41,7 @@ class PostService {
           }
 
 
-        const posts = await Posts.findAll(queryOptions, {
-            include: {
-                model: Users,
-                attributes: ['id','name','role']
-            }
-        })
+        const posts = await Posts.findAll(queryOptions)
 
         if(posts.length === 0){
             throw new CustomError("Nenhuma postagem encontrada", 404)
@@ -49,6 +49,22 @@ class PostService {
 
         return posts
 
+    }
+
+    async getPostById(id){
+        const post = await Posts.findByPk(id,{
+            include: {
+                model: Users,
+                as: "user_post",
+                attributes: ['id','name','role']
+            }
+        })
+
+        if(!post){
+            throw new CustomError("Postagem não encontrada", 404)
+        }
+
+        return post;
     }
 }
 
