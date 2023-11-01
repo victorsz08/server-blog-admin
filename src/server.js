@@ -6,12 +6,12 @@ import 'dotenv/config';
 
 import './database/index.js';
 import { authenticate } from './middlewares/authenticate.js';
-import { someResource } from "./middlewares/accessControl.js";
 import { locale } from './resources/translations.js';
 import { dark } from '@adminjs/themes';
 
 import userResource from './resources/userResource.js';
 import postResource from './resources/postResource.js';
+import routes from './api/routes.js';
 
 
 AdminJS.registerAdapter({
@@ -41,6 +41,8 @@ const router = AdminJSExpress.buildAuthenticatedRouter(adminJs,
 const app = express();
 
 app.use(adminJs.options.rootPath, router);
+
+routes(app)
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running in http://localhost:${process.env.PORT}${adminJs.options.rootPath}`)

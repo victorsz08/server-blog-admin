@@ -55,6 +55,7 @@ export const locale = {
                 noRecordsInResource: "Nenhuma postagem feita por aqui!",
                 welcomeOnBoard_title: "Seja Bem-Vindo",
                 welcomeOnBoard_subtitle: "Pagina de Administração",
+                invalidCredentials: "Email ou Senha incorretos",
             }
         }
     }
