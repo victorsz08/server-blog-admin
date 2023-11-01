@@ -11,17 +11,35 @@ export default {
         parent:{
             icon: 'User'
         },
+        
     actions:{
         resetPassword: {
             actionType: 'record',
             icon: "password",
+            isAccessible: ({currentAdmin}) => currentAdmin.role === "admin",
             handler: async (request, response, context) => {
                 return {
                     record: context.record.toJSON(),
                 }
             }
         },
+        delete: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        edit: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        show: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        filter: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
+        list: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin'
+        },
         new: {
+            isAccessible: ({currentAdmin}) => currentAdmin.role === 'admin',
             handler: async (request, response, context) => {
                 const { name, email, role, password_hash } = request.payload;
                 
@@ -63,9 +81,6 @@ export default {
                     }
                 }
                     
-
-                
-
                 
             }
             
@@ -81,7 +96,7 @@ export default {
         },
         email: {
             position: 3,
-            isRequire: true
+            isRequire: true,
         },
         role: {
             position: 4,
