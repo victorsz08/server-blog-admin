@@ -3,6 +3,7 @@ import AdminJS from 'adminjs';
 import AdminJSSequelize from '@adminjs/sequelize';
 import AdminJSExpress from '@adminjs/express';
 import 'dotenv/config';
+import cors from 'cors';
 
 import './database/index.js';
 import { authenticate } from './middlewares/authenticate.js';
@@ -33,8 +34,12 @@ const adminJs = new AdminJS({
 const router = AdminJSExpress.buildAuthenticatedRouter(adminJs,
     {
         authenticate,
-        cookieName: 'adminjs',
-        cookiePassword: 'sessionsecret',
+        cookie: {
+        httpOnly: process.env.DB_NAME === 'production',
+        secure: process.env.DB_NAME === 'production',
+        },
+        cookieName: 'adminBlog',
+        cookiePassword: process.env.SECRET+'sessionsecret',
       }
     );
 
@@ -43,6 +48,17 @@ const app = express();
 app.use(adminJs.options.rootPath, router);
 
 routes(app)
+
+app.use(cors({
+    origin: process.env.ORIGIN_HTTP,
+    methods: 'GET,POST,DELETE,PUT',
+    allowedHeaders: '*',
+    optionsSuccessStatus: '200'
+}))
+
+app.get('/', (request, response) => {
+    response.json("Bem-Vindo a API BLOG - by VictorS")
+})
 
 app.listen(process.env.PORT, () => {
     console.log(`Server is running in http://localhost:${process.env.PORT}${adminJs.options.rootPath}`)

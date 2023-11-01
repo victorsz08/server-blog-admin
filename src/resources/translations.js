@@ -56,6 +56,8 @@ export const locale = {
                 welcomeOnBoard_title: "Seja Bem-Vindo",
                 welcomeOnBoard_subtitle: "Pagina de Administração",
                 invalidCredentials: "Email ou Senha incorretos",
+                successfullyUpdated: "Alterações efetuadas com sucesso!",
+                successfullyCreated: "Criado com sucesso!"
             }
         }
     }
