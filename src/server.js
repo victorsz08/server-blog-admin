@@ -35,8 +35,8 @@ const router = AdminJSExpress.buildAuthenticatedRouter(adminJs,
     {
         authenticate,
         cookie: {
-        httpOnly: process.env.DB_NAME === 'production',
-        secure: process.env.DB_NAME === 'production',
+        httpOnly: process.env.DB_NAME === 'development',
+        secure: process.env.DB_NAME === 'development',
         },
         cookieName: 'adminBlog',
         cookiePassword: process.env.SECRET+'sessionsecret',
@@ -47,14 +47,10 @@ const app = express();
 
 app.use(adminJs.options.rootPath, router);
 
+app.use(cors('*'))
+
 routes(app)
 
-app.use(cors({
-    origin: process.env.ORIGIN_HTTP,
-    methods: 'GET,POST,DELETE,PUT',
-    allowedHeaders: '*',
-    optionsSuccessStatus: '200'
-}))
 
 app.get('/', (request, response) => {
     response.json("Bem-Vindo a API BLOG - by VictorS")

@@ -5,6 +5,7 @@ export class Posts extends Model {
   static init(sequelize) {
     super.init({
       title: Sequelize.STRING,
+      image: Sequelize.TEXT,
       content: Sequelize.TEXT,
       author: Sequelize.INTEGER
     },{

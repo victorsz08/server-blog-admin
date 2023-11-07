@@ -16,23 +16,28 @@ export default {
             position: 2,
             isRequire: true
         },
-        content: {
+        image: {
             position: 3,
+            type: 'richtext',
+            isRequire: true
+        },
+        content: {
+            position: 4,
             isRequire: true,
             type: 'richtext',
         },
         author: {
-            position: 4,
+            position: 5,
             isRequire: true,
         },
         createdAt: {
-            position: 5,
+            position: 6,
             isVisible: {
                 list: true, filter: true, show: true, edit: false
             }
         },
         updatedAt: {
-            position: 6,
+            position: 7,
             isVisible: {
                 list: true, filter: true, show: true, edit: false
             }
