@@ -8,8 +8,8 @@ class PostService {
     async getPosts(query) {
         const { sort, filter, order, field, page , perPage , keyword } = query
 
-        const pageOption = page || 1;
-        const perPageOption = perPage || 10;
+        const pageOption = parseInt(page, 1) || 1;
+        const perPageOption = parseInt(perPage, 10) || 10;
 
         const queryOptions = {
             order: [],
