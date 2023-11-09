@@ -16,6 +16,9 @@ module.exports = {
       image: {
         type: Sequelize.TEXT
       },
+      category: {
+        type: Sequelize.ENUM("redPill","development","fashionMen")
+      },
       content: {
         type: Sequelize.TEXT
       },

@@ -21,23 +21,32 @@ export default {
             type: 'richtext',
             isRequire: true
         },
-        content: {
+        category: {
             position: 4,
+            isRequire: true,
+            availableValues: [
+                { value: "development", label: "Desenvolvimento Pessoal"},
+                { value: "redPill", label: "Red Pill"},
+                { value: "fashionMen", label: "Moda Masculina"},
+            ]
+        },
+        content: {
+            position: 5,
             isRequire: true,
             type: 'richtext',
         },
         author: {
-            position: 5,
+            position: 6,
             isRequire: true,
         },
         createdAt: {
-            position: 6,
+            position: 7,
             isVisible: {
                 list: true, filter: true, show: true, edit: false
             }
         },
         updatedAt: {
-            position: 7,
+            position: 8,
             isVisible: {
                 list: true, filter: true, show: true, edit: false
             }

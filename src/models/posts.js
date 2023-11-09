@@ -6,6 +6,7 @@ export class Posts extends Model {
     super.init({
       title: Sequelize.STRING,
       image: Sequelize.TEXT,
+      category: Sequelize.ENUM("redPill","development","fashionMen"),
       content: Sequelize.TEXT,
       author: Sequelize.INTEGER
     },{
