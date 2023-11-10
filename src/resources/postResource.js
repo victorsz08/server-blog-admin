@@ -18,7 +18,6 @@ export default {
         },
         image: {
             position: 3,
-            type: 'richtext',
             isRequire: true
         },
         category: {
